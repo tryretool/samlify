@@ -232,7 +232,9 @@ async function postFlow(options): Promise<FlowResult> {
       self.entitySetting.clockDrifts
     )
   ) {
-    return Promise.reject('ERR_SUBJECT_UNCONFIRMED');
+    const now = new Date()
+    const errMessage = `ERR_SUBJECT_UNCONFIRMED: now:${now} notBefore:${extractedProperties.conditions.notBefore} notOnOrAfter:${extractedProperties.conditions.notOnOrAfter}`
+    return Promise.reject(errMessage);
   }
 
   return Promise.resolve(parseResult);
