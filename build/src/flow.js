@@ -122,7 +122,7 @@ function redirectFlow(options) {
 // proceed the post flow
 function postFlow(options) {
     return __awaiter(this, void 0, void 0, function () {
-        var request, from, self, parserType, _a, checkSignature, body, direction, encodedRequest, samlContent, verificationOptions, decryptRequired, extractorFields, _b, verified, verifiedAssertionNode, result, _c, verified, verifiedAssertionNode, parseResult, targetEntityMetadata, issuer, extractedProperties;
+        var request, from, self, parserType, _a, checkSignature, body, direction, encodedRequest, samlContent, verificationOptions, decryptRequired, extractorFields, _b, verified, verifiedAssertionNode, result, _c, verified, verifiedAssertionNode, parseResult, targetEntityMetadata, issuer, extractedProperties, now, errMessage;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
@@ -198,7 +198,9 @@ function postFlow(options) {
                     if (parserType === 'SAMLResponse'
                         && extractedProperties.conditions
                         && !validator_1.verifyTime(extractedProperties.conditions.notBefore, extractedProperties.conditions.notOnOrAfter)) {
-                        return [2 /*return*/, Promise.reject('ERR_SUBJECT_UNCONFIRMED')];
+                        now = new Date();
+                        errMessage = "ERR_SUBJECT_UNCONFIRMED: now:" + now + " notBefore:" + extractedProperties.conditions.notBefore + " notOnOrAfter:" + extractedProperties.conditions.notOnOrAfter;
+                        return [2 /*return*/, Promise.reject(errMessage)];
                     }
                     return [2 /*return*/, Promise.resolve(parseResult)];
             }
