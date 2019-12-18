@@ -7,10 +7,12 @@
     "declarationDir": "types",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "downlevelIteration": true,
     "sourceMap": true,
     "outDir": "./build",
     "baseUrl": "./",
     "removeComments": false,
+    "strictNullChecks": true,
     "paths": {},
     "lib": [
       "dom",
@@ -23,7 +25,8 @@
   "atom": { "rewriteTsconfig": false },
   "exclude": [
     "node_modules",
-    "types/**/*.ts"
+    "types/**/*.ts",
+    "test/**/*.ts"
   ],
   "compileOnSave": false,
   "buildOnSave": false
