@@ -124,6 +124,7 @@ async function postFlow(options): Promise<FlowResult> {
     from,
     self,
     parserType,
+    driftTolerance,
     checkSignature = true
   } = options;
 
@@ -149,7 +150,7 @@ async function postFlow(options): Promise<FlowResult> {
   if (parserType !== urlParams.samlResponse) {
     extractorFields = getDefaultExtractorFields(parserType, null);
   }
-  
+
   // check status based on different scenarios
   await checkStatus(samlContent, parserType);
 
@@ -212,7 +213,8 @@ async function postFlow(options): Promise<FlowResult> {
     parserType === 'SAMLResponse'
     && !verifyTime(
       undefined,
-      extractedProperties.sessionIndex.sessionNotOnOrAfter
+      extractedProperties.sessionIndex.sessionNotOnOrAfter,
+      driftTolerance
     )
   ) {
     return Promise.reject('ERR_EXPIRED_SESSION');
@@ -225,7 +227,8 @@ async function postFlow(options): Promise<FlowResult> {
     && extractedProperties.conditions
     && !verifyTime(
       extractedProperties.conditions.notBefore,
-      extractedProperties.conditions.notOnOrAfter
+      extractedProperties.conditions.notOnOrAfter,
+      driftTolerance
     )
   ) {
     const now = new Date()

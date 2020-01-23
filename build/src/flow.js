@@ -143,11 +143,11 @@ function redirectFlow(options) {
 // proceed the post flow
 function postFlow(options) {
     return __awaiter(this, void 0, void 0, function () {
-        var request, from, self, parserType, _a, checkSignature, body, direction, encodedRequest, samlContent, verificationOptions, decryptRequired, extractorFields, _b, verified, verifiedAssertionNode, result, _c, verified, verifiedAssertionNode, parseResult, targetEntityMetadata, issuer, extractedProperties, now, errMessage;
+        var request, from, self, parserType, driftTolerance, _a, checkSignature, body, direction, encodedRequest, samlContent, verificationOptions, decryptRequired, extractorFields, _b, verified, verifiedAssertionNode, result, _c, verified, verifiedAssertionNode, parseResult, targetEntityMetadata, issuer, extractedProperties, now, errMessage;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
-                    request = options.request, from = options.from, self = options.self, parserType = options.parserType, _a = options.checkSignature, checkSignature = _a === void 0 ? true : _a;
+                    request = options.request, from = options.from, self = options.self, parserType = options.parserType, driftTolerance = options.driftTolerance, _a = options.checkSignature, checkSignature = _a === void 0 ? true : _a;
                     body = request.body;
                     direction = libsaml_1.default.getQueryParamByType(parserType);
                     encodedRequest = body[direction];
@@ -216,14 +216,14 @@ function postFlow(options) {
                     }
                     // invalid session time
                     if (parserType === 'SAMLResponse'
-                        && !validator_1.verifyTime(undefined, extractedProperties.sessionIndex.sessionNotOnOrAfter)) {
+                        && !validator_1.verifyTime(undefined, extractedProperties.sessionIndex.sessionNotOnOrAfter, driftTolerance)) {
                         return [2 /*return*/, Promise.reject('ERR_EXPIRED_SESSION')];
                     }
                     // invalid time
                     // 2.4.1.2 https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf
                     if (parserType === 'SAMLResponse'
                         && extractedProperties.conditions
-                        && !validator_1.verifyTime(extractedProperties.conditions.notBefore, extractedProperties.conditions.notOnOrAfter)) {
+                        && !validator_1.verifyTime(extractedProperties.conditions.notBefore, extractedProperties.conditions.notOnOrAfter, driftTolerance)) {
                         now = new Date();
                         errMessage = "ERR_SUBJECT_UNCONFIRMED: now:" + now + " notBefore:" + extractedProperties.conditions.notBefore + " notOnOrAfter:" + extractedProperties.conditions.notOnOrAfter;
                         return [2 /*return*/, Promise.reject(errMessage)];

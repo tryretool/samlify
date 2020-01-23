@@ -12,7 +12,7 @@ function verifyTime(
   if (!utcNotBefore && !utcNotOnOrAfter) {
     // show warning because user intends to have time check but the document doesn't include corresponding information
     console.warn('You intend to have time validation however the document doesn\'t include the valid range.');
-    return true; 
+    return true;
   }
 
   let notBeforeLocal: Date | null = null;
@@ -40,5 +40,6 @@ function verifyTime(
 }
 
 export {
-  verifyTime
+  DriftTolerance,
+  verifyTime,
 };

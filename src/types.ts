@@ -1,4 +1,5 @@
 import { LoginResponseTemplate } from './libsaml';
+import { DriftTolerance } from './validator';
 
 export { IdentityProvider as IdentityProviderConstructor } from './entity-idp';
 export { IdpMetadata as IdentityProviderMetadata } from './metadata-idp';
@@ -58,6 +59,7 @@ export interface SAMLDocumentTemplate {
 export type ServiceProviderSettings = {
   metadata?: string | Buffer;
   entityID?: string;
+  driftTolerance?: DriftTolerance;
   authnRequestsSigned?: boolean;
   wantAssertionsSigned?: boolean;
   wantMessageSigned?: boolean;

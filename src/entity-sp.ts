@@ -18,6 +18,9 @@ import redirectBinding from './binding-redirect';
 import postBinding from './binding-post';
 import { flow, FlowResult } from './flow';
 
+const THREE_MINS_IN_MILLIS = 3 * 60 * 1000
+const DEFAULT_DRIFT_TOLERANCE = [-THREE_MINS_IN_MILLIS, +THREE_MINS_IN_MILLIS]
+
 /*
  * @desc interface function
  */
@@ -91,6 +94,7 @@ export class ServiceProvider extends Entity {
     return flow({
       from: idp,
       self: self,
+      driftTolerance: this.getEntitySetting().driftTolerance || DEFAULT_DRIFT_TOLERANCE,
       checkSignature: true, // saml response must have signature
       parserType: 'SAMLResponse',
       type: 'login',

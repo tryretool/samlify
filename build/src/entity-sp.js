@@ -34,6 +34,8 @@ var urn_1 = require("./urn");
 var binding_redirect_1 = require("./binding-redirect");
 var binding_post_1 = require("./binding-post");
 var flow_1 = require("./flow");
+var THREE_MINS_IN_MILLIS = 3 * 60 * 1000;
+var DEFAULT_DRIFT_TOLERANCE = [-THREE_MINS_IN_MILLIS, +THREE_MINS_IN_MILLIS];
 /*
  * @desc interface function
  */
@@ -96,6 +98,7 @@ var ServiceProvider = /** @class */ (function (_super) {
         return flow_1.flow({
             from: idp,
             self: self,
+            driftTolerance: this.getEntitySetting().driftTolerance || DEFAULT_DRIFT_TOLERANCE,
             checkSignature: true,
             parserType: 'SAMLResponse',
             type: 'login',
